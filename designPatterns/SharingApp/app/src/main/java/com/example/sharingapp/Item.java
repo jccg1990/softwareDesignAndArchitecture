@@ -22,8 +22,7 @@ public class Item extends Observable {
     protected String image_base64;
     private String id;
 
-    public Item(String title, String maker, String description, Bitmap image,
-                String id) {
+    public Item(String title, String maker, String description, Bitmap image, String id) {
         this.title = title;
         this.maker = maker;
         this.description = description;
@@ -32,14 +31,14 @@ public class Item extends Observable {
         this.borrower = null;
         addImage(image);
 
-        if (id == null) {
+        if (id == null){
             setId();
         } else {
             updateId(id);
         }
     }
 
-    public String getId() {
+    public String getId(){
         return this.id;
     }
 
@@ -48,13 +47,14 @@ public class Item extends Observable {
         notifyObservers();
     }
 
-    public void updateId(String id) {
+    public void updateId(String id){
         this.id = id;
         notifyObservers();
     }
 
     public void setTitle(String title) {
         this.title = title;
+        notifyObservers();
     }
 
     public String getTitle() {
@@ -84,15 +84,15 @@ public class Item extends Observable {
         notifyObservers();
     }
 
-    public String getLength() {
+    public String getLength(){
         return dimensions.getLength();
     }
 
-    public String getWidth() {
+    public String getWidth(){
         return dimensions.getWidth();
     }
 
-    public String getHeight() {
+    public String getHeight(){
         return dimensions.getHeight();
     }
 
@@ -114,7 +114,7 @@ public class Item extends Observable {
         return borrower;
     }
 
-    public void addImage(Bitmap new_image) {
+    public void addImage(Bitmap new_image){
         if (new_image != null) {
             image = new_image;
             ByteArrayOutputStream byteArrayBitmapStream = new ByteArrayOutputStream();
@@ -126,7 +126,7 @@ public class Item extends Observable {
         notifyObservers();
     }
 
-    public Bitmap getImage() {
+    public Bitmap getImage(){
         if (image == null && image_base64 != null) {
             byte[] decodeString = Base64.decode(image_base64, Base64.DEFAULT);
             image = BitmapFactory.decodeByteArray(decodeString, 0, decodeString.length);
@@ -135,3 +135,4 @@ public class Item extends Observable {
         return image;
     }
 }
+

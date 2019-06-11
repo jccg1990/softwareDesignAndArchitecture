@@ -3,9 +3,9 @@ package com.example.sharingapp;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -73,6 +73,7 @@ public class EditItemActivity extends AppCompatActivity implements Observer {
 
         Intent intent = getIntent(); // Get intent from ItemsFragment
         pos = intent.getIntExtra("position", 0);
+
         context = getApplicationContext();
 
         item_list_controller.addObserver(this);
@@ -123,53 +124,20 @@ public class EditItemActivity extends AppCompatActivity implements Observer {
     }
 
     public void saveItem(View view) {
-
-        String title_str = title.getText().toString();
-        String maker_str = maker.getText().toString();
-        String description_str = description.getText().toString();
-        String length_str = length.getText().toString();
-        String width_str = width.getText().toString();
-        String height_str = height.getText().toString();
-
         Contact contact = null;
         if (!status.isChecked()) {
             String borrower_str = borrower_spinner.getSelectedItem().toString();
             contact = contact_list_controller.getContactByUsername(borrower_str);
         }
-        if (title_str.equals("")) {
-            title.setError("Empty field!");
-            return;
-        }
 
-        if (maker_str.equals("")) {
-            maker.setError("Empty field!");
-            return;
-        }
-
-        if (description_str.equals("")) {
-            description.setError("Empty field!");
-            return;
-        }
-
-        if (length_str.equals("")) {
-            length.setError("Empty field!");
-            return;
-        }
-
-        if (width_str.equals("")) {
-            width.setError("Empty field!");
-            return;
-        }
-
-        if (height_str.equals("")) {
-            height.setError("Empty field!");
+        if (!validateInput()) {
             return;
         }
 
         String id = item_controller.getId(); // Reuse the item id
-        Item updated_item = new Item(title_str, maker_str, description_str, image, id);
+        Item updated_item = new Item(title.getText().toString(), maker.getText().toString(), description.getText().toString(), image, id);
         ItemController updated_item_controller = new ItemController(updated_item);
-        updated_item_controller.setDimensions(length_str, width_str, height_str);
+        updated_item_controller.setDimensions(length.getText().toString(), width.getText().toString(), height.getText().toString());
 
         boolean checked = status.isChecked();
         if (!checked) {
@@ -188,6 +156,41 @@ public class EditItemActivity extends AppCompatActivity implements Observer {
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    //bad design, this is duplicated on AddItemActivity. Written like this to follow course hints
+    public boolean validateInput() {
+        if (title.getText().toString().equals("")) {
+            title.setError("Empty field!");
+            return false;
+        }
+
+        if (maker.getText().toString().equals("")) {
+            maker.setError("Empty field!");
+            return false;
+        }
+
+        if (description.getText().toString().equals("")) {
+            description.setError("Empty field!");
+            return false;
+        }
+
+        if (length.getText().toString().equals("")) {
+            length.setError("Empty field!");
+            return false;
+        }
+
+        if (width.getText().toString().equals("")) {
+            width.setError("Empty field!");
+            return false;
+        }
+
+        if (height.getText().toString().equals("")) {
+            height.setError("Empty field!");
+            return false;
+        }
+
+        return true;
     }
 
     /**

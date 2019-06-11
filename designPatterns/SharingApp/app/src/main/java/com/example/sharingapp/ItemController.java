@@ -2,15 +2,19 @@ package com.example.sharingapp;
 
 import android.graphics.Bitmap;
 
+/**
+ * ItemController is responsible for all communication between views and Item object
+ */
+
 public class ItemController {
 
     private Item item;
 
-    public ItemController(Item item) {
+    public ItemController(Item item){
         this.item = item;
     }
 
-    public String getId() {
+    public String getId(){
         return item.getId();
     }
 
@@ -50,11 +54,11 @@ public class ItemController {
         return item.getLength();
     }
 
-    public String getWidth() {
+    public String getWidth(){
         return item.getWidth();
     }
 
-    public String getHeight() {
+    public String getHeight(){
         return item.getHeight();
     }
 
@@ -74,17 +78,15 @@ public class ItemController {
         return item.getBorrower();
     }
 
-    public void addImage(Bitmap new_image) {
+    public void addImage(Bitmap new_image){
         item.addImage(new_image);
     }
 
-    public Bitmap getImage() {
+    public Bitmap getImage(){
         return item.getImage();
     }
 
-    public Item getItem() {
-        return this.item;
-    }
+    public Item getItem() { return this.item; }
 
     public void addObserver(Observer observer) {
         item.addObserver(observer);
@@ -93,4 +95,5 @@ public class ItemController {
     public void removeObserver(Observer observer) {
         item.removeObserver(observer);
     }
+
 }

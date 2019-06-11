@@ -26,4 +26,5 @@ public class AllItemsFragment extends ItemsFragment {
     public ArrayList<Item> filterItems() {
         return item_list_controller.getItems();
     }
+
 }

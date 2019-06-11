@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * ItemList class
  */
-public class ItemList extends Observable {
+public class ItemList extends Observable{
 
     private static ArrayList<Item> items;
     private String FILENAME = "items.sav";
@@ -100,7 +100,6 @@ public class ItemList extends Observable {
         return true;
     }
 
-
     public ArrayList<Contact> getActiveBorrowers() {
 
         ArrayList<Contact> active_borrowers = new ArrayList<Contact>();
@@ -113,9 +112,9 @@ public class ItemList extends Observable {
         return active_borrowers;
     }
 
-    public ArrayList<Item> filterItemsByStatus(String status) {
+    public ArrayList<Item> filterItemsByStatus(String status){
         ArrayList<Item> selected_items = new ArrayList<>();
-        for (Item i : items) {
+        for (Item i: items) {
             if (i.getStatus().equals(status)) {
                 selected_items.add(i);
             }

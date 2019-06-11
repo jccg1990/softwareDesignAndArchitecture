@@ -35,11 +35,11 @@ public class ContactList extends Observable {
         return contacts;
     }
 
-    public ArrayList<String> getAllUsernames() {
+    public ArrayList<String> getAllUsernames(){
         ArrayList<String> username_list = new ArrayList<String>();
-        for (Contact u : contacts) {
-            username_list.add(u.getUsername());
-        }
+        for (Contact c : contacts){
+            username_list.add(c.getUsername());
+            }
         return username_list;
     }
 
@@ -61,9 +61,9 @@ public class ContactList extends Observable {
         return contacts.size();
     }
 
-    public Contact getContactByUsername(String username) {
-        for (Contact c : contacts) {
-            if (c.getUsername().equals(username)) {
+    public Contact getContactByUsername(String username){
+        for (Contact c : contacts){
+            if (c.getUsername().equals(username)){
                 return c;
             }
         }
@@ -85,18 +85,9 @@ public class ContactList extends Observable {
             if (contact.getId().equals(c.getId())) {
                 return pos;
             }
-            pos = pos + 1;
+            pos = pos+1;
         }
         return -1;
-    }
-
-    public boolean isUsernameAvailable(String username) {
-        for (Contact c : contacts) {
-            if (c.getUsername().equals(username)) {
-                return false;
-            }
-        }
-        return true;
     }
 
     public void loadContacts(Context context) {
@@ -105,8 +96,7 @@ public class ContactList extends Observable {
             FileInputStream fis = context.openFileInput(FILENAME);
             InputStreamReader isr = new InputStreamReader(fis);
             Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<Contact>>() {
-            }.getType();
+            Type listType = new TypeToken<ArrayList<Contact>>() {}.getType();
             contacts = gson.fromJson(isr, listType); // temporary
             fis.close();
         } catch (FileNotFoundException e) {
@@ -117,6 +107,10 @@ public class ContactList extends Observable {
         notifyObservers();
     }
 
+    /**
+     * @param context
+     * @return true: if save is successful, false: if save is unsuccessful
+     */
     public boolean saveContacts(Context context) {
         try {
             FileOutputStream fos = context.openFileOutput(FILENAME, 0);
@@ -132,7 +126,15 @@ public class ContactList extends Observable {
             e.printStackTrace();
             return false;
         }
+        return true;
+    }
 
+    public boolean isUsernameAvailable(String username){
+        for (Contact u : contacts) {
+            if (u.getUsername().equals(username)) {
+                return false;
+            }
+        }
         return true;
     }
 }

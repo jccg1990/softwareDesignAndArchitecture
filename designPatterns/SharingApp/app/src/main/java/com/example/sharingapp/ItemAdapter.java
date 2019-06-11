@@ -1,6 +1,5 @@
 package com.example.sharingapp;
 
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
@@ -62,7 +61,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         description_tv.setText(description);
 
         // AllItemFragments: itemlist item shows title, description and status
-        if (fragment instanceof AllItemsFragment) {
+        if (fragment instanceof AllItemsFragment ) {
             status_tv.setText(status);
         }
 

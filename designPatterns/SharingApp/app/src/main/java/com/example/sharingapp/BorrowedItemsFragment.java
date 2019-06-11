@@ -15,7 +15,7 @@ public class BorrowedItemsFragment extends ItemsFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        super.onCreateView(inflater, container, savedInstanceState);
+        super.onCreateView(inflater,container, savedInstanceState);
         super.setVariables(R.layout.borrowed_items_fragment, R.id.my_borrowed_items);
         super.loadItems(BorrowedItemsFragment.this);
         super.setFragmentOnItemLongClickListener();

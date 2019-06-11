@@ -14,14 +14,14 @@ public class Contact extends Observable {
         this.username = username;
         this.email = email;
 
-        if (id == null) {
+        if (id == null){
             setId();
         } else {
             updateId(id);
         }
     }
 
-    public String getId() {
+    public String getId(){
         return this.id;
     }
 
@@ -30,7 +30,7 @@ public class Contact extends Observable {
         notifyObservers();
     }
 
-    public void updateId(String id) {
+    public void updateId(String id){
         this.id = id;
         notifyObservers();
     }
@@ -49,7 +49,7 @@ public class Contact extends Observable {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email= email;
         notifyObservers();
     }
 }

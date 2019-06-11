@@ -4,11 +4,14 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
+/**
+ * ItemListController is responsible for all communication between views and ItemList object
+ */
 public class ItemListController {
 
     private ItemList item_list;
 
-    public ItemListController(ItemList item_list) {
+    public ItemListController(ItemList item_list){
         this.item_list = item_list;
     }
 
@@ -20,7 +23,7 @@ public class ItemListController {
         return item_list.getItems();
     }
 
-    public boolean addItem(Item item, Context context) {
+    public boolean addItem(Item item, Context context){
         AddItemCommand add_item_command = new AddItemCommand(item_list, item, context);
         add_item_command.execute();
         return add_item_command.isExecuted();
@@ -32,7 +35,7 @@ public class ItemListController {
         return delete_item_command.isExecuted();
     }
 
-    public boolean editItem(Item item, Item updated_item, Context context) {
+    public boolean editItem(Item item, Item updated_item, Context context){
         EditItemCommand edit_item_command = new EditItemCommand(item_list, item, updated_item, context);
         edit_item_command.execute();
         return edit_item_command.isExecuted();
@@ -58,7 +61,7 @@ public class ItemListController {
         return item_list.getActiveBorrowers();
     }
 
-    public ArrayList<Item> filterItemsByStatus(String status) {
+    public ArrayList<Item> filterItemsByStatus(String status){
         return item_list.filterItemsByStatus(status);
     }
 
@@ -69,5 +72,4 @@ public class ItemListController {
     public void removeObserver(Observer observer) {
         item_list.removeObserver(observer);
     }
-
 }

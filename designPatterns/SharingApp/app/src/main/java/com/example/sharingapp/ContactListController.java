@@ -2,93 +2,82 @@ package com.example.sharingapp;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+/**
+ * ContactListController is responsible for all communication between views and ContactList object
+ */
 public class ContactListController {
 
-    private ContactList contactList;
+    private ContactList contact_list;
 
-    public ContactListController(ContactList contactList) {
-        this.contactList = contactList;
+    public ContactListController(ContactList contact_list){
+        this.contact_list = contact_list;
     }
 
     public void setContacts(ArrayList<Contact> contact_list) {
-        contactList.setContacts(contact_list);
+        this.contact_list.setContacts(contact_list);
     }
 
     public ArrayList<Contact> getContacts() {
-        return contactList.getContacts();
+        return contact_list.getContacts();
     }
 
-    public ArrayList<String> getAllUsernames() {
-        return contactList.getAllUsernames();
+    public ArrayList<String> getAllUsernames(){
+        return  contact_list.getAllUsernames();
     }
 
     public boolean addContact(Contact contact, Context context) {
-        AddContactCommand addContactCommand = new AddContactCommand(contactList, contact, context);
-        addContactCommand.execute();
-        return addContactCommand.isExecuted();
+        AddContactCommand add_contact_command = new AddContactCommand(contact_list, contact, context);
+        add_contact_command.execute();
+        return add_contact_command.isExecuted();
     }
 
     public boolean deleteContact(Contact contact, Context context) {
-        DeleteContactCommand deleteContactCommand = new DeleteContactCommand(contactList, contact, context);
-        deleteContactCommand.execute();
-        return deleteContactCommand.isExecuted();
+        DeleteContactCommand delete_contact_command = new DeleteContactCommand(contact_list, contact, context);
+        delete_contact_command.execute();
+        return delete_contact_command.isExecuted();
     }
 
-    public boolean editContact(Contact contact, Contact updatedContact, Context context) {
-        EditContactCommand editContactCommand = new EditContactCommand(contactList, contact, updatedContact, context);
-        editContactCommand.execute();
-        return editContactCommand.isExecuted();
+    public boolean editContact(Contact contact, Contact updated_contact, Context context){
+        EditContactCommand edit_contact_command = new EditContactCommand(contact_list, contact, updated_contact, context);
+        edit_contact_command.execute();
+        return edit_contact_command.isExecuted();
     }
 
     public Contact getContact(int index) {
-        return contactList.getContact(index);
+        return contact_list.getContact(index);
     }
 
     public int getSize() {
-        return contactList.getSize();
+        return contact_list.getSize();
     }
 
     public Contact getContactByUsername(String username) {
-        return contactList.getContactByUsername(username);
+        return contact_list.getContactByUsername(username);
     }
 
     public boolean hasContact(Contact contact) {
-        return contactList.hasContact(contact);
+        return contact_list.hasContact(contact);
     }
 
     public int getIndex(Contact contact) {
-        return contactList.getIndex(contact);
-    }
-
-    public boolean isUsernameAvailable(String username) {
-        return contactList.isUsernameAvailable(username);
+        return contact_list.getIndex(contact);
     }
 
     public void loadContacts(Context context) {
-        contactList.loadContacts(context);
+        contact_list.loadContacts(context);
     }
 
-    public boolean saveContacts(Context context) {
-        return contactList.saveContacts(context);
+    public boolean isUsernameAvailable(String username){
+        return contact_list.isUsernameAvailable(username);
     }
 
     public void addObserver(Observer observer) {
-        contactList.addObserver(observer);
+        contact_list.addObserver(observer);
     }
 
     public void removeObserver(Observer observer) {
-        contactList.removeObserver(observer);
+       contact_list.removeObserver(observer);
     }
 }

@@ -45,19 +45,19 @@ public abstract class ItemsFragment extends Fragment implements Observer {
         return rootView;
     }
 
-    public void setVariables(int resource, int id) {
+    public void setVariables(int resource, int id ) {
         rootView = inflater.inflate(resource, container, false);
         list_view = (ListView) rootView.findViewById(id);
         selected_items = filterItems();
     }
 
-    public void loadItems(Fragment fragment) {
+    public void loadItems(Fragment fragment){
         this.fragment = fragment;
         item_list_controller.addObserver(this);
         item_list_controller.loadItems(context);
     }
 
-    public void setFragmentOnItemLongClickListener() {
+    public void setFragmentOnItemLongClickListener(){
 
         // When item is long clicked, this starts EditItemActivity
         list_view.setOnItemLongClickListener(new android.widget.AdapterView.OnItemLongClickListener() {
@@ -81,7 +81,6 @@ public abstract class ItemsFragment extends Fragment implements Observer {
 
     /**
      * filterItems is implemented independently by AvailableItemsFragment, BorrowedItemsFragment and AllItemsFragment
-     *
      * @return selected_items
      */
     public abstract ArrayList<Item> filterItems();
@@ -98,7 +97,7 @@ public abstract class ItemsFragment extends Fragment implements Observer {
     /**
      * Update the view
      */
-    public void update() {
+    public void update(){
         if (update) {
             adapter = new ItemAdapter(context, selected_items, fragment);
             list_view.setAdapter(adapter);

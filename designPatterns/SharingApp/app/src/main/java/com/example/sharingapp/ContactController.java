@@ -1,14 +1,17 @@
 package com.example.sharingapp;
 
+/**
+ * ContactController is responsible for all communication between views and Contact object
+ */
 public class ContactController {
 
     private Contact contact;
 
-    public ContactController(Contact contact) {
+    public ContactController(Contact contact){
         this.contact = contact;
     }
 
-    public String getId() {
+    public String getId(){
         return contact.getId();
     }
 
@@ -16,7 +19,7 @@ public class ContactController {
         contact.setId();
     }
 
-    public void updateId(String id) {
+    public void updateId(String id){
         contact.updateId(id);
     }
 
@@ -36,9 +39,7 @@ public class ContactController {
         contact.setEmail(email);
     }
 
-    public Contact getContact() {
-        return this.contact;
-    }
+    public Contact getContact() {return this.contact;}
 
     public void addObserver(Observer observer) {
         contact.addObserver(observer);

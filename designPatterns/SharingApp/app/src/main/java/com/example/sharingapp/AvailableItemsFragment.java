@@ -10,12 +10,12 @@ import java.util.ArrayList;
 /**
  * Displays a list of all "Available" items
  */
-public class AvailableItemsFragment extends ItemsFragment {
+public class AvailableItemsFragment extends ItemsFragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        super.onCreateView(inflater, container, savedInstanceState);
+        super.onCreateView(inflater,container, savedInstanceState);
         super.setVariables(R.layout.available_items_fragment, R.id.my_available_items);
         super.loadItems(AvailableItemsFragment.this);
         super.setFragmentOnItemLongClickListener();

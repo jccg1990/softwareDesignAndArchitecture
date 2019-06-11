@@ -2,109 +2,127 @@ package com.example.sharingapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
 /**
  * Editing a pre-existing contact consists of deleting the old contact and adding a new contact with the old
  * contact's id.
- * Note: You will not be able contacts which are "active" borrowers
+ * Note: You will not be able to edit contacts which are "active" borrowers
  */
 public class EditContactActivity extends AppCompatActivity implements Observer {
 
     private ContactList contact_list = new ContactList();
-    private ContactListController contactListController = new ContactListController(contact_list);
+    private ContactListController contact_list_controller = new ContactListController(contact_list);
 
     private Contact contact;
-    private ContactController contactController;
+    private ContactController contact_controller;
 
     private EditText email;
     private EditText username;
     private Context context;
-
-    private boolean onCreateUpdate = false;
     private int pos;
+    private boolean on_create_update = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_contact);
 
-        username = (EditText) findViewById(R.id.username);
-        email = (EditText) findViewById(R.id.email);
-
         Intent intent = getIntent();
         pos = intent.getIntExtra("position", 0);
+
         context = getApplicationContext();
-
-        onCreateUpdate = true;
-
-        contactListController.addObserver(this);
-        contactListController.loadContacts(context);
-
-        onCreateUpdate = false;
+        contact_list_controller.addObserver(this);
+        contact_list_controller.loadContacts(context);
+        on_create_update = false;
     }
 
     public void saveContact(View view) {
 
-        String email_str = email.getText().toString();
-
-        if (email_str.equals("")) {
-            email.setError("Empty field!");
+        if (!validateInput()) {
             return;
+        }
+
+        // Reuse the contact id
+        String id_str = contact_controller.getId();
+        Contact updated_contact = new Contact(username.getText().toString(), email.getText().toString(), id_str);
+
+        // Edit Contact: replace contact with updated contact
+        boolean success = contact_list_controller.editContact(contact, updated_contact, context);
+        if (!success) {
+            return;
+        }
+
+        // End EditContactActivity
+        finish();
+    }
+
+    //bad design, this is duplicated on AddContactActivity. Written like this to follow course hints
+    public boolean validateInput() {
+        String email_str = email.getText().toString();
+        String username_str = username.getText().toString();
+
+        if (username_str.equals("")) {
+            username.setError("Empty field!");
+            return false;
         }
 
         if (!email_str.contains("@")) {
             email.setError("Must be an email address!");
-            return;
+            return false;
         }
-
-        String username_str = username.getText().toString();
-        String id = contactController.getId(); // Reuse the contact id
 
         // Check that username is unique AND username is changed (Note: if username was not changed
         // then this should be fine, because it was already unique.)
-        if (!contactListController.isUsernameAvailable(username_str) && !(contactController.getUsername().equals(username_str))) {
+        if (!contact_list_controller.isUsernameAvailable(username_str) &&
+                !(contact.getUsername().equals(username_str))) {
             username.setError("Username already taken!");
-            return;
+            return false;
         }
 
-        Contact updated_contact = new Contact(username_str, email_str, id);
-
-        boolean success = contactListController.editContact(contact, updated_contact, context);
-        if (!success) {
-            return;
-        }
-
-        // End EditContactActivity
-        contactListController.removeObserver(this);
-
-        finish();
+        return true;
     }
 
     public void deleteContact(View view) {
 
-        boolean success = contactListController.deleteContact(contact, context);
+        // Delete contact
+        boolean success = contact_list_controller.deleteContact(contact, context);
         if (!success) {
             return;
         }
 
         // End EditContactActivity
-        contactListController.removeObserver(this);
-
         finish();
     }
 
+    /**
+     * Called when the activity is destroyed, thus we remove this activity as a listener
+     */
     @Override
-    public void update() {
-        if (onCreateUpdate) {
-            contact = contact_list.getContact(pos);
-            contactController = new ContactController(contact);
+    protected void onDestroy() {
+        super.onDestroy();
+        contact_list_controller.removeObserver(this);
+    }
 
-            username.setText(contactController.getUsername());
-            email.setText(contactController.getEmail());
+    /**
+     * Only need to update the view from the onCreate method
+     */
+    public void update() {
+
+        if (on_create_update) {
+
+            contact = contact_list_controller.getContact(pos);
+            contact_controller = new ContactController(contact);
+
+            username = (EditText) findViewById(R.id.username);
+            email = (EditText) findViewById(R.id.email);
+
+            // Update the view
+            username.setText(contact_controller.getUsername());
+            email.setText(contact_controller.getEmail());
         }
     }
 }

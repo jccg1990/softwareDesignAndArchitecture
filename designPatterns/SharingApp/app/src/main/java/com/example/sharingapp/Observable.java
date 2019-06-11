@@ -1,15 +1,18 @@
 package com.example.sharingapp;
-
 import java.util.ArrayList;
 
+/**
+ * Superclass of Item, ItemList, Contact, ContactList
+ */
 public class Observable {
 
-    public ArrayList<Observer> observers = null;
+    private ArrayList<Observer> observers = null;
 
-    public Observable() {
-        observers = new ArrayList<>();
+    public Observable(){
+        observers = new ArrayList<Observer>();
     }
 
+    // Notify observers when need to update any changes made to model
     public void notifyObservers() {
         for (Observer observer : observers) {
             observer.update();
@@ -25,4 +28,5 @@ public class Observable {
             observers.remove(observer);
         }
     }
+
 }

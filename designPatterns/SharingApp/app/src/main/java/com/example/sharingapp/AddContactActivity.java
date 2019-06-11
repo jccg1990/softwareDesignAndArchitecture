@@ -1,8 +1,8 @@
 package com.example.sharingapp;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
@@ -12,7 +12,7 @@ import android.widget.EditText;
 public class AddContactActivity extends AppCompatActivity {
 
     private ContactList contact_list = new ContactList();
-    private ContactListController contactListController = new ContactListController(contact_list);
+    private ContactListController contact_list_controller = new ContactListController(contact_list);
 
     private Context context;
 
@@ -28,42 +28,47 @@ public class AddContactActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.email);
 
         context = getApplicationContext();
-        contactListController.loadContacts(context);
+        contact_list_controller.loadContacts(context);
     }
 
     public void saveContact(View view) {
 
-        String username_str = username.getText().toString();
-        String email_str = email.getText().toString();
-
-        if (username_str.equals("")) {
-            username.setError("Empty field!");
+        if (!validateInput()) {
             return;
         }
 
-        if (email_str.equals("")) {
-            email.setError("Empty field!");
-            return;
-        }
+        Contact contact = new Contact(username.getText().toString(), email.getText().toString(), null);
 
-        if (!email_str.contains("@")) {
-            email.setError("Must be an email address!");
-            return;
-        }
-
-        if (!contactListController.isUsernameAvailable(username_str)) {
-            username.setError("Username already taken!");
-            return;
-        }
-
-        Contact contact = new Contact(username_str, email_str, null);
-
-        boolean success = contactListController.addContact(contact, context);
+        // Add contact
+        boolean success = contact_list_controller.addContact(contact, context);
         if (!success) {
             return;
         }
 
         // End AddContactActivity
         finish();
+    }
+
+    //bad design, this is duplicated on EditContactActivity. Written like this to follow course hints
+    public boolean validateInput() {
+        String username_str = username.getText().toString();
+        String email_str = email.getText().toString();
+
+        if (username_str.equals("")) {
+            username.setError("Empty field!");
+            return false;
+        }
+
+        if (!email_str.contains("@")) {
+            email.setError("Must be an email address!");
+            return false;
+        }
+
+        if (!contact_list_controller.isUsernameAvailable(username_str)) {
+            username.setError("Username already taken!");
+            return false;
+        }
+
+        return true;
     }
 }

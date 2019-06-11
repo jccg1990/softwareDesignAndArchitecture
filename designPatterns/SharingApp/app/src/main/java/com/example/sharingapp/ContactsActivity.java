@@ -29,6 +29,7 @@ public class ContactsActivity extends AppCompatActivity implements Observer {
     private ArrayAdapter<Contact> adapter;
     private Context context;
 
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
@@ -77,7 +78,7 @@ public class ContactsActivity extends AppCompatActivity implements Observer {
         contact_list_controller.loadContacts(context);
     }
 
-    public void addContactActivity(View view) {
+    public void addContactActivity(View view){
         Intent intent = new Intent(this, AddContactActivity.class);
         startActivity(intent);
     }
@@ -94,7 +95,7 @@ public class ContactsActivity extends AppCompatActivity implements Observer {
     /**
      * Update the view
      */
-    public void update() {
+    public void update(){
         my_contacts = (ListView) findViewById(R.id.my_contacts);
         adapter = new ContactAdapter(ContactsActivity.this, contact_list_controller.getContacts());
         my_contacts.setAdapter(adapter);
